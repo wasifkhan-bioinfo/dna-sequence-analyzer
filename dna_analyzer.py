@@ -1,27 +1,50 @@
 
 # DNA Sequence Analyzer
 # Author: Wasif Khan
-# Purpose: Basic DNA sequence analysis
+# Project: Beginner Bioinformatics
+
+def read_fasta(filename):
+    """Read a single DNA sequence from a FASTA file."""
+
+    try:
+        with open(filename, "r") as file:
+            lines = file.readlines()
+
+        if not lines or not lines[0].startswith(">"):
+            print("Error: Invalid FASTA file. Header must start with >")
+            return None
+
+        sequence = ""
+
+        for line in lines[1:]:
+            sequence += line.strip()
+
+        if not sequence:
+            print("Error: No DNA sequence found in FASTA file.")
+            return None
+
+        return sequence.upper()
+
+    except FileNotFoundError:
+        print("Error: FASTA file not found.")
+        return None
+
 
 def analyze_dna(sequence):
 
-    # Clean the input
     sequence = sequence.upper().strip()
 
-    # Check for empty sequence
     if not sequence:
-        print("Error: Please enter a DNA sequence.")
+        print("Error: Empty DNA sequence.")
         return
 
-    # Check valid DNA bases
     valid_bases = set("ATGC")
 
     if not all(base in valid_bases for base in sequence):
         print("Error: Invalid DNA sequence.")
-        print("Please use only A, T, G, and C.")
+        print("Use only A, T, G, and C.")
         return
 
-    # Count nucleotides
     length = len(sequence)
 
     count_a = sequence.count("A")
@@ -29,23 +52,17 @@ def analyze_dna(sequence):
     count_g = sequence.count("G")
     count_c = sequence.count("C")
 
-    # Calculate nucleotide percentages
     gc_content = ((count_g + count_c) / length) * 100
     at_content = ((count_a + count_t) / length) * 100
 
-    # Generate complementary DNA
     complement_table = str.maketrans("ATGC", "TACG")
     complement = sequence.translate(complement_table)
 
-    # Generate reverse complement
     reverse_complement = complement[::-1]
 
-    # DNA to RNA transcription
     rna_sequence = sequence.replace("T", "U")
 
-    # Display results
     print("\n===== DNA SEQUENCE ANALYSIS =====")
-
     print("Original DNA:", sequence)
     print("Sequence Length:", length)
 
@@ -68,5 +85,22 @@ def analyze_dna(sequence):
 
 
 # Main program
-dna = input("Enter a DNA sequence: ")
-analyze_dna(dna)
+print("DNA SEQUENCE ANALYZER")
+print("1. Enter DNA sequence manually")
+print("2. Read DNA sequence from FASTA file")
+
+choice = input("Choose option (1 or 2): ")
+
+if choice == "1":
+    dna = input("Enter DNA sequence: ")
+    analyze_dna(dna)
+
+elif choice == "2":
+    filename = input("Enter FASTA filename: ")
+    dna = read_fasta(filename)
+
+    if dna is not None:
+        analyze_dna(dna)
+
+else:
+    print("Invalid choice. Please select 1 or 2.")
