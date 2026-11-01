@@ -34,7 +34,8 @@ def analyze_dna(sequence):
 
 reverse_complement = complement[::-1]
 
-    # Display results
+        
+         # Display results
     print("\n=== DNA SEQUENCE ANALYSIS ===")
     print("DNA Sequence:", sequence)
     print("Sequence Length:", length)
