@@ -32,6 +32,8 @@ def analyze_dna(sequence):
     complement_table = str.maketrans("ATGC", "TACG")
     complement = sequence.translate(complement_table)
 
+reverse_complement = complement[::-1]
+
     # Display results
     print("\n=== DNA SEQUENCE ANALYSIS ===")
     print("DNA Sequence:", sequence)
@@ -43,6 +45,7 @@ def analyze_dna(sequence):
     print(f"GC Content: {gc_content:.2f}%")
     print(f"AT Content: {at_content:.2f}%")
     print("Complementary DNA:", complement)
+    print("Reverse Complement:", reverse_complement)
 
 
 dna = input("Enter a DNA sequence: ")
